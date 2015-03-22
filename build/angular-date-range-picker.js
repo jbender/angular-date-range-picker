@@ -9,13 +9,15 @@
       return {
         restrict: "AE",
         replace: true,
-        template: "<span tabindex=\"0\" ng-keydown=\"hide()\" class=\"angular-date-range-picker__input\">\n  <span ng-if=\"showRanged\">\n    <span ng-show=\"!!model\">{{ model.start.format(\"ll\") }} - {{ model.end.format(\"ll\") }}</span>\n    <span ng-hide=\"!!model\">Select date range</span>\n  </span>\n  <span ng-if=\"!showRanged\">\n    <span ng-show=\"!!model\">{{ model.format(\"ll\") }}</span>\n    <span ng-hide=\"!!model\">Select date</span>\n  </span>\n</span>",
+        template: "<span tabindex=\"0\" ng-keydown=\"hide()\" class=\"angular-date-range-picker__input\">\n  <span ng-if=\"showRanged\">\n    <span ng-show=\"!!model\">{{ model.start.format(dateFormat) }} - {{ model.end.format(dateFormat) }}</span>\n    <span ng-hide=\"!!model\">Select date range</span>\n  </span>\n  <span ng-if=\"!showRanged\">\n    <span ng-show=\"!!model\">{{ model.format(dateFormat) }}</span>\n    <span ng-hide=\"!!model\">Select date</span>\n  </span>\n</span>",
         scope: {
           model: "=ngModel",
+          limitingRange: "=limitingRange",
           customSelectOptions: "=",
           ranged: "=",
           pastDates: "@",
-          callback: "&"
+          callback: "&",
+          dateFormat: "@"
         },
         link: function($scope, element, attrs) {
           var documentClickFn, domEl, _calculateRange, _checkQuickList, _makeQuickList, _prepare;
@@ -45,6 +47,7 @@
           $scope.selecting = false;
           $scope.visible = false;
           $scope.start = null;
+          $scope.dateFormat = $scope.dateFormat || "ll";
           $scope.showRanged = $scope.ranged === void 0 ? true : $scope.ranged;
           _makeQuickList = function(includeCustom) {
             var e, _i, _len, _ref, _results;
@@ -127,6 +130,9 @@
                 if ($scope.pastDates) {
                   dis = moment().diff(date, 'days') > 0;
                 }
+              }
+              if ($scope.limitingRange && !date.within($scope.limitingRange)) {
+                dis = true;
               }
               (_base = $scope.months)[m] || (_base[m] = {
                 name: date.format("MMMM YYYY"),

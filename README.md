@@ -54,7 +54,6 @@ $scope.rangeSelectOptions = [
     )
   }
 ]
-
 ```
 
 ```html
@@ -71,6 +70,9 @@ Due to usage of `track by $index` it is impossible to provide one version for bo
     <th>date-range-picker version</th>
   </tr>
   <tr>
+    <td>1.3.x</td><td>0.5.x</td>
+  </tr>
+  <tr>
     <td>1.2.x</td><td>0.3.x</td>
   </tr>
   <tr>
@@ -80,8 +82,6 @@ Due to usage of `track by $index` it is impossible to provide one version for bo
     <td>1.0.x</td><td>0.2.x</td>
   </tr>
 </table>
-
-
 
 
 ## Development
@@ -100,4 +100,3 @@ open test/index.html
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
-
